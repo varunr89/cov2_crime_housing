@@ -1,7 +1,8 @@
 COV2_CrimeRate
 ==============================
 
-Effect of COV2 on crime rate in cities of Bellingham and Seattle in Western Washington
+Effect of COV2 on crime rate in cities of Bellingham and Seattle in Western Washington.
+Stretch Goal: Merge dataset with City of Bellingham Housing sale data, develop sale price ML model and quantitatively evaluate the impact of crime on property sale price on a block level. 
 
 Project Organization
 ------------
@@ -10,18 +11,24 @@ Project Organization
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
     ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
+    │   ├── 0_external       <- Data from third party sources.
+    │   ├── 2_interim        <- Intermediate data that has been transformed.
+    │   │   ├── Bellingham_Property_Sale_Combined.csv 	<- All Residential Property Sale data in Bellingham between 2015 and 2021.
+    │   │   ├── COB_CrimeReport.csv   			<- All Police activity detail in City of Bellingham between 2015 and 2021. 
+    │   ├── 3_processed      <- The final, canonical data sets for modeling.
+    │   │   ├── 
+    │   │   ├── 
+    │   └── 1_raw            <- The original, immutable data dump.
     │
     ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries
     │
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
+    │      ├── CrimeData_EDA.ipynb 	<- Explore Bellingham Police Activity Scanner
+    │      ├── HousingData_EDA.ipynb  	<- Explore Housing data. Merge with Crime data. Train Models. 
+    │        			                        
+    │                         
     │
     ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
     │
@@ -36,7 +43,12 @@ Project Organization
     │   ├── __init__.py    <- Makes src a Python module
     │   │
     │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
+    │   │   ├── WhatcomCtyProperty_serialScraper_.py 	<- Serial Scrapper to scrape Whatcom Assesors Properties
+    │   │   ├── WhatcomCtyProperty_parallelScraper.py   <- Parallelized Scrapper to scrape Whatcom Assesors Properties
+    │   │   ├── WhatcomCtyAss_Scraper.py        	<- Scrapper to scrape Whatcom Assesors Sale Search output
+    │   │   ├── COB_PoliceActivity_Scraper.py        	<- Scrape Bellingham Police Activity Scanner
+    │   │   ├── make_dataset.py        			<- Download data from Seattle PD activity
+    │   │   ├── helper_functions.py        		<- helper functions for scraping
     │   │
     │   ├── features       <- Scripts to turn raw data into features for modeling
     │   │   └── build_features.py
