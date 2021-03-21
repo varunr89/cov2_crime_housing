@@ -64,6 +64,12 @@ Project Organization
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
 
---------
+Summary of Results
+==============================
+
+1. <p><small> Medium blog post <a target="_blank" href="https://capcloudcoder.medium.com/impact-of-cov-2-on-local-crime-statistics-ea8154294d22">Impact of COV-2 on local crime statistics</a>. #datascience #Webscraping #aspnet #covid19 #crime</small></p>
+
+References
+==============================
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
