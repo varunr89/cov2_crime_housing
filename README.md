@@ -16,8 +16,10 @@ Project Organization
     │   │   ├── Bellingham_Property_Sale_Combined.csv 	<- All Residential Property Sale data in Bellingham between 2015 and 2021.
     │   │   ├── COB_CrimeReport.csv   			<- All Police activity detail in City of Bellingham between 2015 and 2021. 
     │   ├── 3_processed      <- The final, canonical data sets for modeling.
-    │   │   ├── 
-    │   │   ├── 
+    │   │   ├── Bellingham_Property_Sale_Clean.csv 	<- Residential Property Sales Data cleaned and prepared for machine learning.
+    │   │   ├── Cleaned_Merged_Housing_Crime_Data.csv 	<- Cleaned Residential Property Sales data merged with Crime Data.
+    │   │   ├── MachineLearing_X_beforeFE.csv 		<- Input for Machine Learning models (not feature engineering) with monthly time-series.
+    │   │   ├── MachineLearing_y_beforeFE.csv 		<- target for Machine Learning models (not feature engineering) with monthly time-series.
     │   └── 1_raw            <- The original, immutable data dump.
     │
     ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
@@ -26,9 +28,7 @@ Project Organization
     │
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
     │      ├── CrimeData_EDA.ipynb 	<- Explore Bellingham Police Activity Scanner
-    │      ├── HousingData_EDA.ipynb  	<- Explore Housing data. Merge with Crime data. Train Models. 
-    │        			                        
-    │                         
+    │      ├── HousingData_EDA.ipynb  	<- Explore Housing data. Merge with Crime data. Train Models.                    
     │
     ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
     │
