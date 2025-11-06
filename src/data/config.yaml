@@ -1,0 +1,90 @@
+# Configuration for Unified Web Scraper CLI Tool
+project:
+  name: cov2_crime_housing
+  version: 0.2.0
+
+# Data directory paths (relative to project root)
+data_dirs:
+  external: data/0_external
+  raw: data/1_raw
+  interim: data/2_interim
+  processed: data/3_processed
+
+# Logging configuration
+logging:
+  level: INFO
+  file: logs/scraper.log
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+
+# Scraper configurations
+scrapers:
+  bellingham_crime:
+    enabled: true
+    name: Bellingham Police Activity
+    url: https://police.cob.org/PIRPressSummary/ReleaseForm.aspx
+    output_file: COB_CrimeReport.csv
+    output_dir: interim
+    start_year: 2015
+    end_year: 2024
+    rate_limit_seconds: 2
+    max_retries: 3
+    timeout: 30
+
+  seattle_crime:
+    enabled: true
+    name: Seattle Police Crime Data
+    url: https://data.seattle.gov/resource/tazs-3rd5.json
+    output_file: Seattle_Crime_Data.csv
+    output_dir: raw
+    limit: 1000000
+    rate_limit_seconds: 1
+    max_retries: 3
+    timeout: 60
+
+  property_sales:
+    enabled: true
+    name: Whatcom County Property Sales
+    url: https://property.whatcomcounty.us/PropertyAccess/SearchResultsSales.aspx
+    output_file: Bellingham_Property_Part1.csv
+    output_dir: interim
+    max_pages: 200
+    headless: true
+    rate_limit_seconds: 3
+    max_retries: 3
+    timeout: 30
+
+  property_details:
+    enabled: false  # Manual trigger only
+    name: Whatcom County Property Details
+    input_file: Bellingham_Property_Part1.csv
+    output_file: Bellingham_Property_Complete.csv
+    output_dir: interim
+    parallel: false
+    max_workers: 4
+    headless: true
+    rate_limit_seconds: 2
+    max_retries: 3
+    timeout: 30
+
+# Browser configuration for Selenium scrapers
+selenium:
+  browser: chrome
+  driver_path: auto  # auto-detect or specify path
+  options:
+    - --no-sandbox
+    - --headless
+    - --disable-dev-shm-usage
+    - --disable-gpu
+    - --window-size=1920,1080
+
+# Rate limiting and retry settings
+rate_limiting:
+  enabled: true
+  default_delay: 2  # seconds between requests
+
+retry:
+  max_attempts: 3
+  backoff_factor: 2  # exponential backoff: 1s, 2s, 4s
+  backoff_max: 30  # max wait time in seconds
