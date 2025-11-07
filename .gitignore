@@ -87,3 +87,17 @@ target/
 
 # Mypy cache
 .mypy_cache/
+
+# Scraper artifacts
+*.log
+logs/
+.pytest_cache/
+__pycache__/
+*.pyc
+.coverage
+htmlcov/
+*.egg-info/
+
+# Browser drivers
+chromedriver
+geckodriver

@@ -1,75 +1,100 @@
-COV2_CrimeRate
-==============================
+# COVID-19 Crime and Housing Analysis
 
-Effect of COV2 on crime rate in cities of Bellingham and Seattle in Western Washington.
-Stretch Goal: Merge dataset with City of Bellingham Housing sale data, develop sale price ML model and quantitatively evaluate the impact of crime on property sale price on a block level. 
+This project analyzes how COVID-19 affected crime rates in Bellingham and Seattle, Washington. The analysis uses property sales data to quantify crime's impact on housing prices at the block level.
 
-Project Organization
-------------
+## Quick Start
 
-    ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
-    ├── data
-    │   ├── 0_external       <- Data from third party sources.
-    │   ├── 2_interim        <- Intermediate data that has been transformed.
-    │   │   ├── Bellingham_Property_Sale_Combined.csv 	<- All Residential Property Sale data in Bellingham between 2015 and 2021.
-    │   │   ├── COB_CrimeReport.csv   			<- All Police activity detail in City of Bellingham between 2015 and 2021. 
-    │   ├── 3_processed      <- The final, canonical data sets for modeling.
-    │   │   ├── Bellingham_Property_Sale_Clean.csv 	<- Residential Property Sales Data cleaned and prepared for machine learning.
-    │   │   ├── Cleaned_Merged_Housing_Crime_Data.csv 	<- Cleaned Residential Property Sales data merged with Crime Data.
-    │   │   ├── MachineLearing_X_beforeFE.csv 		<- Input for Machine Learning models (not feature engineering) with monthly time-series.
-    │   │   ├── MachineLearing_y_beforeFE.csv 		<- target for Machine Learning models (not feature engineering) with monthly time-series.
-    │   └── 1_raw            <- The original, immutable data dump.
-    │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-    │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
-    │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │      ├── CrimeData_EDA.ipynb 	<- Explore Bellingham Police Activity Scanner
-    │      ├── HousingData_EDA.ipynb  	<- Explore Housing data. Merge with Crime data. Train Models.                    
-    │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
-    │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
-    │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
-    │   │
-    │   ├── data           <- Scripts to download or generate data
-    │   │   ├── WhatcomCtyProperty_serialScraper_.py 	<- Serial Scrapper to scrape Whatcom Assesors Properties
-    │   │   ├── WhatcomCtyProperty_parallelScraper.py   <- Parallelized Scrapper to scrape Whatcom Assesors Properties
-    │   │   ├── WhatcomCtyAss_Scraper.py        	<- Scrapper to scrape Whatcom Assesors Sale Search output
-    │   │   ├── COB_PoliceActivity_Scraper.py        	<- Scrape Bellingham Police Activity Scanner
-    │   │   ├── make_dataset.py        			<- Download data from Seattle PD activity
-    │   │   ├── helper_functions.py        		<- helper functions for scraping
-    │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
-    │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
-    │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+Install dependencies:
 
+```bash
+pip install -e .
+```
 
-Summary of Results
-==============================
+Update all data sources:
 
-1. <p><small> Medium blog post <a target="_blank" href="https://capcloudcoder.medium.com/impact-of-cov-2-on-local-crime-statistics-ea8154294d22">Impact of COV-2 on local crime statistics</a>. #datascience #Webscraping #aspnet #covid19 #crime</small></p>
+```bash
+python -m src.data.cli update --all
+```
 
-References
-==============================
+Check data status:
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+```bash
+python -m src.data.cli status
+```
+
+See [docs/SCRAPER_CLI.md](docs/SCRAPER_CLI.md) for complete CLI documentation.
+
+## Project Structure
+
+```
+├── data/                    # Data pipeline
+│   ├── 0_external/          # Third-party sources
+│   ├── 1_raw/               # Original downloads
+│   ├── 2_interim/           # Transformed data
+│   └── 3_processed/         # Analysis-ready datasets
+├── src/data/                # Unified web scraper CLI
+│   ├── cli.py               # Main CLI interface
+│   ├── config.yaml          # Scraper configuration
+│   ├── scrapers/            # Scraper implementations
+│   └── utils/               # Logging and helpers
+├── notebooks/               # Jupyter analysis notebooks
+├── models/                  # Trained ML models
+└── tests/                   # Test suite
+```
+
+## Key Features
+
+The unified CLI scraper provides:
+
+- **Automated data collection** from three sources: Bellingham police reports, Seattle crime API, and Whatcom County property sales
+- **Retry logic** with exponential backoff for failed requests
+- **Rate limiting** to respect server resources
+- **YAML configuration** for all scraper settings
+- **Comprehensive logging** with automatic rotation
+
+## Data Sources
+
+**Bellingham Crime Data**
+- Source: City of Bellingham Police Activity Scanner
+- Coverage: 2015-2024
+- Output: `data/2_interim/COB_CrimeReport.csv`
+
+**Seattle Crime Data**
+- Source: Seattle Open Data API
+- Coverage: Complete historical dataset
+- Output: `data/1_raw/Seattle_Crime_Data.csv`
+
+**Property Sales Data**
+- Source: Whatcom County Assessor
+- Coverage: Bellingham residential sales
+- Output: `data/2_interim/Bellingham_Property_Part1.csv`
+
+## Analysis Notebooks
+
+**CrimeData_EDA.ipynb** explores 139,487 crime records from Bellingham police activity.
+
+**HousingData_EDA.ipynb** merges housing and crime data, then trains ML models to quantify crime's impact on property prices.
+
+## Development
+
+Run tests:
+
+```bash
+pytest tests/data/ -v
+```
+
+Add a new scraper:
+
+1. Inherit from `BaseScraper` in `src/data/scrapers/base_scraper.py`
+2. Implement the `scrape()` method
+3. Register in `SCRAPER_CLASSES` dictionary (`src/data/cli.py`)
+4. Add configuration to `src/data/config.yaml`
+5. Write tests in `tests/data/scrapers/`
+
+## Results
+
+Read the [Medium analysis](https://capcloudcoder.medium.com/impact-of-cov-2-on-local-crime-statistics-ea8154294d22) of COVID-19's impact on local crime statistics.
+
+## Credits
+
+Project structure follows the [cookiecutter data science template](https://drivendata.github.io/cookiecutter-data-science/).

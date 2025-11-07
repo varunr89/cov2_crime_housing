@@ -1,10 +1,16 @@
 from setuptools import find_packages, setup
 
 setup(
-    name='src',
+    name='cov2_crime_housing',
     packages=find_packages(),
-    version='0.1.0',
-    description='Effect of COV2 on crime rate in cities of Bellingham and Seattle in Western Washington',
+    version='0.2.0',
+    description='COVID-19 Crime and Housing Data Analysis with Unified CLI Scraper',
     author='capcloudcoder',
-    license='',
+    license='MIT',
+    entry_points={
+        'console_scripts': [
+            'scraper=src.data.cli:main',
+        ],
+    },
+    python_requires='>=3.8',
 )
